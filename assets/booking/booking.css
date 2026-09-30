@@ -1,0 +1,499 @@
+html.nt-booking-open { overflow: hidden; }
+
+.nt-book-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin-top: 22px;
+  padding: 12px 20px;
+  border: 1px solid #171512;
+  border-radius: 999px;
+  background: #171512;
+  color: #fff;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nt-book-inline:hover { background: #111; color: #fff; }
+.nt-book-inline:focus-visible {
+  outline: 2px solid #171512;
+  outline-offset: 3px;
+}
+.nt-cases-book { margin: 22px 0 0; text-align: center; }
+.nt-cases-book .nt-book-inline { margin-top: 0; }
+.nt-cta-note {
+  position: relative;
+  z-index: 1;
+  margin: 14px 0 0;
+  color: #6b6b6b;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+#nt-booking[hidden] { display: none; }
+#nt-booking {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.nt-book-page #nt-booking {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 12px 20px 48px;
+}
+.nt-book-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 22, 22, 0.46);
+}
+.nt-book-dialog {
+  position: relative;
+  box-sizing: border-box;
+  width: min(1040px, 100%);
+  max-height: min(920px, calc(100vh - 48px));
+  overflow: auto;
+  padding: 28px 28px 24px;
+  border-radius: 20px;
+  background: #f4f4f6;
+  color: #1a1a1a;
+  box-shadow: 0 24px 70px rgba(17, 17, 17, 0.18);
+}
+.nt-book-page .nt-book-dialog {
+  width: min(1040px, 100%);
+  max-height: none;
+  margin: 0 auto;
+  box-shadow: 0 16px 40px rgba(17, 17, 17, 0.06);
+}
+.nt-book-close {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 2;
+  margin: 0 0 8px 12px;
+  padding: 8px 12px;
+  border: 1px solid rgba(23, 21, 18, 0.16);
+  border-radius: 999px;
+  background: #fff;
+  color: #171512;
+  font: 600 13px/1 Inter, "Inter Display", system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-book-close:focus-visible,
+.nt-book-btn:focus-visible,
+.nt-book-slot:focus-visible,
+.nt-book-day:focus-visible,
+.nt-book-choice input:focus-visible + span {
+  outline: 2px solid #171512;
+  outline-offset: 3px;
+}
+.nt-book-progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0 0 22px;
+  padding: 0;
+  list-style: none;
+}
+.nt-book-progress button,
+.nt-book-progress span {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #8a8a8a;
+  font: 500 13px/1.3 Inter, "Inter Display", system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+.nt-book-progress button { cursor: pointer; }
+.nt-book-progress .is-current { color: #171512; font-weight: 700; }
+.nt-book-progress .is-done { color: #3a3a3a; }
+.nt-book-split {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.18fr);
+  gap: 32px;
+  align-items: start;
+}
+.nt-book-kicker {
+  margin: 0 0 10px;
+  color: #707070;
+  font: 500 12px/1 Inter, "Inter Display", system-ui, sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.nt-book-copy h2,
+.nt-book-step h2,
+.nt-book-confirm h2 {
+  margin: 0;
+  color: #161616;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.nt-book-copy p,
+.nt-book-lead {
+  margin: 14px 0 0;
+  color: #5c5c5c;
+  font: 400 15px/1.6 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+  color: #171512;
+  font: 600 14px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-trust li::before { content: "· "; }
+.nt-book-aside {
+  margin: 16px 0 0;
+  color: #707070;
+  font: 400 13px/1.5 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-form h3 {
+  margin: 26px 0 12px;
+  color: #161616;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 26px;
+  font-weight: 400;
+}
+.nt-book-form h3:first-child { margin-top: 0; }
+.nt-book-field { margin: 0 0 14px; }
+.nt-book-field label,
+.nt-book-form legend {
+  display: block;
+  margin-bottom: 8px;
+  padding: 0;
+  color: #1a1a1a;
+  font: 600 14px/1.3 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-form fieldset {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+}
+.nt-book-field input,
+.nt-book-field textarea,
+.nt-book-field select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #fff;
+  color: #1a1a1a;
+  font: 400 15px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-field textarea { min-height: 110px; resize: vertical; }
+.nt-book-field input:focus,
+.nt-book-field textarea:focus,
+.nt-book-field select:focus {
+  outline: none;
+  border-color: #171512;
+  box-shadow: 0 0 0 3px rgba(23, 21, 18, 0.12);
+}
+.nt-book-field.is-invalid input,
+.nt-book-field.is-invalid textarea,
+.nt-book-form fieldset.is-invalid {
+  border-color: #9f1239;
+}
+.nt-book-field.is-invalid input,
+.nt-book-field.is-invalid textarea { border-color: #9f1239; }
+.nt-book-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nt-book-choice { position: relative; }
+.nt-book-choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.nt-book-choice span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #d7d7dc;
+  border-radius: 999px;
+  background: #fff;
+  color: #1a1a1a;
+  font: 500 13px/1.3 Inter, "Inter Display", system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-book-choice input:checked + span {
+  border-color: #171512;
+  background: #171512;
+  color: #fff;
+}
+.nt-book-error,
+.nt-book-summary {
+  margin: 8px 0 0;
+  color: #9f1239;
+  font: 400 13px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-summary {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border: 1px solid #f3c3cf;
+  border-radius: 10px;
+  background: #fff7f8;
+}
+.nt-book-summary a { color: #9f1239; }
+.nt-book-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.nt-book-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+.nt-book-btn {
+  min-height: 46px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  border: 1px solid #171512;
+  background: #171512;
+  color: #fff;
+  font: 700 15px/1 Inter, "Inter Display", system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-book-btn:hover { background: #111; }
+.nt-book-btn:disabled { opacity: 0.6; cursor: wait; }
+.nt-book-btn.is-ghost {
+  background: transparent;
+  color: #171512;
+}
+.nt-book-btn.is-ghost:hover { background: rgba(255, 255, 255, 0.7); }
+.nt-book-mode {
+  margin: 10px 0 0;
+  color: #6b6b6b;
+  font: 400 13px/1.45 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+}
+.nt-book-cal-head h3 {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+}
+.nt-book-nav { display: flex; gap: 8px; }
+.nt-book-week,
+.nt-book-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+.nt-book-week {
+  margin-top: 14px;
+  color: #8a8a8a;
+  font: 600 11px/1 Inter, "Inter Display", system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-align: center;
+}
+.nt-book-grid { margin-top: 8px; }
+.nt-book-day {
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #fff;
+  color: #171512;
+  font: 600 14px/1 Inter, "Inter Display", system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-book-day:disabled {
+  background: transparent;
+  color: #b0b0b0;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+.nt-book-day.is-selected {
+  background: #171512;
+  color: #fff;
+}
+.nt-book-slots {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+.nt-book-slot {
+  min-height: 44px;
+  border: 1px solid #d7d7dc;
+  border-radius: 10px;
+  background: #fff;
+  color: #171512;
+  font: 600 14px/1 Inter, "Inter Display", system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-book-slot.is-selected,
+.nt-book-slot[aria-pressed="true"] {
+  border-color: #171512;
+  background: #171512;
+  color: #fff;
+}
+.nt-book-banner {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #fff7f8;
+  color: #9f1239;
+  font: 400 14px/1.45 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-picked {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid #d7d7dc;
+  border-radius: 12px;
+  background: #f4f4f6;
+}
+.nt-book-picked div { display: grid; gap: 2px; }
+.nt-book-picked strong {
+  color: #171512;
+  font: 600 15px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-picked span {
+  color: #5c5c5c;
+  font: 400 13px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-picked .nt-book-picked-label {
+  color: #707070;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+}
+.nt-book-loading {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+  color: #5c5c5c;
+  font: 500 15px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-loading .nt-book-week { margin-top: 0; }
+.nt-book-loading .nt-book-grid { margin-top: -6px; }
+.nt-book-loading .nt-book-slots { margin-top: 0; }
+.nt-book-skeleton {
+  display: block;
+  background: linear-gradient(100deg, #ececee 30%, #f6f6f7 48%, #ececee 66%);
+  background-size: 220% 100%;
+  animation: ntBookSkeleton 1.4s ease-in-out infinite;
+}
+.nt-book-skeleton-day { min-height: 42px; border-radius: 10px; }
+.nt-book-skeleton-slot { min-height: 44px; border-radius: 10px; }
+@keyframes ntBookSkeleton {
+  to { background-position-x: -220%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nt-book-skeleton { animation: none; }
+}
+.nt-book-confirm { max-width: 680px; }
+.nt-book-card {
+  margin-top: 22px;
+  padding: 18px 18px 8px;
+  border-radius: 16px;
+  background: #fff;
+}
+.nt-book-card dl { margin: 0; }
+.nt-book-card div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.nt-book-card dt {
+  color: #707070;
+  font: 500 13px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-card dd {
+  margin: 0;
+  color: #171512;
+  font: 600 15px/1.4 Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-next { margin: 22px 0 0; padding-left: 18px; color: #3a3a3a; }
+.nt-book-next li { margin: 0 0 8px; font: 400 15px/1.5 Inter, "Inter Display", system-ui, sans-serif; }
+.nt-book-step { animation: ntBookIn 220ms ease; }
+@keyframes ntBookIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nt-book-step { animation: none; }
+}
+@media (max-width: 860px) {
+  #nt-booking { padding: 0; }
+  .nt-book-dialog {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+    padding: 18px 16px 24px;
+  }
+  .nt-book-split { grid-template-columns: 1fr; gap: 18px; }
+  .nt-book-actions {
+    position: sticky;
+    bottom: 0;
+    padding-top: 12px;
+    background: linear-gradient(#f4f4f6, #f4f4f6 30%);
+  }
+  .nt-book-card div { grid-template-columns: 1fr; gap: 2px; }
+}
+.nt-book-page {
+  margin: 0;
+  background: #f4f4f6;
+  color: #171512;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-book-brand {
+  display: inline-block;
+  margin: 20px 0 8px 20px;
+  padding: 8px 16px;
+  border-radius: 22px;
+  background: #fff;
+  color: #171512;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.nt-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nt-turnstile { margin: 16px 0 0; }
+.nt-turnstile[hidden] { display: none; }

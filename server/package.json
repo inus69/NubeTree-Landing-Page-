@@ -1,0 +1,35 @@
+{
+  "name": "nubetree-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test \"test/*.test.js\"",
+    "test:integration": "node scripts/test-database.js test",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "cd .. && node server/node_modules/eslint/bin/eslint.js --max-warnings 0 .",
+    "check": "npm run typecheck && npm run lint && npm test",
+    "qa:browser": "node qa/browser.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:migrate:test": "node scripts/test-database.js migrate"
+  },
+  "dependencies": {
+    "@prisma/client": "6.16.2",
+    "luxon": "3.7.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/luxon": "3.7.6",
+    "@types/node": "22.20.4",
+    "eslint": "10.11.0",
+    "eslint-plugin-html": "8.2.1",
+    "globals": "17.12.0",
+    "prisma": "6.16.2",
+    "typescript": "7.0.2"
+  },
+  "overrides": {
+    "deepmerge-ts": "8.0.2",
+    "effect": "3.22.2"
+  }
+}

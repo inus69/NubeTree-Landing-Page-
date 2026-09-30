@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>LendingPoint Case Study — NubeTree</title>
+  <meta name="description" content="How NubeTree replaced LendingPoint batch jobs with Salesforce Change Data Capture, SOAP and REST services, and Lightning Web Components.">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="case.css">
+</head>
+<body class="nt-case-page">
+  <main class="nt-case">
+    <a class="nt-case-brand" href="index.html">NubeTree</a>
+    <p class="nt-case-kicker">Case study · USA</p>
+    <h1>Distributed Microservices and a FinTech Platform</h1>
+    <dl class="nt-case-meta">
+      <div><dt>Client</dt><dd>LendingPoint</dd></div>
+      <div><dt>Region</dt><dd>USA</dd></div>
+      <div><dt>Domain</dt><dd>Salesforce / FinTech platform</dd></div>
+    </dl>
+    <h2>The problem</h2>
+    <p>The client operated a high-velocity transactional model split across an on-premise Java Spring Boot backend and external payment networks, including Stripe and ACH. Nightly batch jobs caused data synchronization race conditions when users modified active loans. During peak volume, simultaneous database writes frequently breached Apex CPU time-out limits, which dropped transactions and locked the interface.</p>
+    <h2>The work</h2>
+    <ul>
+      <li>Replaced batch processing with an event-driven framework using Salesforce Change Data Capture to stream live financial events through an enterprise service bus.</li>
+      <li>Engineered bi-directional WS-Security SOAP services for legacy calls and low-payload REST endpoints to reduce serialization overhead.</li>
+      <li>Offloaded amortization calculations and payment validations into asynchronous queues with Queueable and Batch Apex chaining.</li>
+      <li>Migrated legacy interface systems into Lightning Web Components with client-side caching to cut server round-trips.</li>
+    </ul>
+    <h2>The outcome</h2>
+    <p>Reduced data synchronization latency between the Java backend and Salesforce to under one second. Concurrency limits were resolved, Apex transaction timeouts dropped by 84%, and the core checkout pipeline stabilized.</p>
+    <a class="nt-case-cta" href="discovery-call.html">Book a Free Discovery Call</a>
+    <a class="nt-case-back" href="index.html#case-studies">Back to case studies</a>
+  </main>
+</body>
+</html>

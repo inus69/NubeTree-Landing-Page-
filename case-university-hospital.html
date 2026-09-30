@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>University Hospital Case Study — NubeTree</title>
+  <meta name="description" content="How NubeTree built low-latency health data ingestion for University Hospital with Bulk API 2.0, validation, and selective queries.">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="case.css">
+</head>
+<body class="nt-case-page">
+  <main class="nt-case">
+    <a class="nt-case-brand" href="index.html">NubeTree</a>
+    <p class="nt-case-kicker">Case study · USA</p>
+    <h1>Low-Latency Health Data Ingestion Pipelines</h1>
+    <dl class="nt-case-meta">
+      <div><dt>Client</dt><dd>University Hospital</dd></div>
+      <div><dt>Region</dt><dd>USA</dd></div>
+      <div><dt>Domain</dt><dd>Health data pipelines</dd></div>
+    </dl>
+    <h2>The problem</h2>
+    <p>The clinical facility needed to ingest and process high-frequency streams from electronic health record platforms and lab devices. Standard integration tools struggled with peak traffic, which threatened system performance and delayed real-time patient charting.</p>
+    <h2>The work</h2>
+    <ul>
+      <li>Used Salesforce Bulk API 2.0 to run large imports as asynchronous, parallel batches.</li>
+      <li>Built Apex validation to sanitize, format, and check payloads against internal medical data tables before a transaction is committed.</li>
+      <li>Indexed high-volume clinical objects and used selective queries so pages stayed fast under load.</li>
+    </ul>
+    <h2>The outcome</h2>
+    <p>Secure, automated healthcare data streams improved internal information flow and held 99.99% system availability during peak hospital sync spikes.</p>
+    <a class="nt-case-cta" href="discovery-call.html">Book a Free Discovery Call</a>
+    <a class="nt-case-back" href="index.html#case-studies">Back to case studies</a>
+  </main>
+</body>
+</html>

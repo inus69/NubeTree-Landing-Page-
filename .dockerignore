@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+.git
+_*
+server/node_modules
+server/test
+*.md
+docker-compose.yml

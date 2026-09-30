@@ -1,0 +1,91 @@
+html, body {
+  margin: 0;
+  background: #F3F3F5;
+  color: #171717;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-legal {
+  box-sizing: border-box;
+  width: min(760px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 40px 0 88px;
+}
+.nt-legal-brand {
+  display: inline-block;
+  margin: 0 0 48px;
+  padding: 8px 16px;
+  border-radius: 22px;
+  background: #fff;
+  color: #171717;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.nt-legal-kicker {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #707070;
+}
+.nt-legal h1 {
+  margin: 0 0 12px;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.nt-legal-updated {
+  margin: 0 0 36px;
+  color: #707070;
+  font-size: 14px;
+}
+.nt-legal h2 {
+  margin: 32px 0 10px;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.nt-legal p,
+.nt-legal li {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #3a3a3a;
+}
+.nt-legal ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+.nt-legal a {
+  color: #171717;
+}
+.nt-legal-button {
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: #171512;
+  color: #ffffff;
+  font: 500 15px/1 Inter, system-ui, sans-serif;
+  cursor: pointer;
+}
+.nt-legal-button:focus-visible {
+  outline: 2px solid #171512;
+  outline-offset: 3px;
+}
+.nt-legal-button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.nt-legal-back {
+  display: inline-block;
+  margin-top: 40px;
+  color: #171717;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}

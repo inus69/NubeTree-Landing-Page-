@@ -1,0 +1,122 @@
+body.nt-case-page {
+  margin: 0;
+  background: #f4f4f6;
+  color: #1a1a1a;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+}
+.nt-case {
+  box-sizing: border-box;
+  width: min(820px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 28px 0 88px;
+}
+.nt-case-brand {
+  display: inline-block;
+  margin: 0 0 36px;
+  padding: 8px 16px;
+  border-radius: 22px;
+  background: #fff;
+  color: #171512;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.nt-case-kicker {
+  margin: 0 0 12px;
+  color: #707070;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.nt-case h1 {
+  margin: 0;
+  color: #161616;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+.nt-case-meta {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.3fr) minmax(110px, 0.7fr) minmax(180px, 1.4fr);
+  gap: 18px 28px;
+  align-items: start;
+  margin: 28px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid rgba(23, 21, 18, 0.1);
+  list-style: none;
+}
+.nt-case-meta div {
+  min-width: 0;
+}
+.nt-case-meta dt {
+  margin: 0 0 6px;
+  color: #707070;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.nt-case-meta dd {
+  margin: 0;
+  color: #171512;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+@media (max-width: 640px) {
+  .nt-case-meta {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+}
+.nt-case h2 {
+  margin: 36px 0 10px;
+  color: #161616;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.nt-case p,
+.nt-case li {
+  color: #3a3a3a;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.nt-case ul {
+  margin: 0;
+  padding-left: 1.15em;
+}
+.nt-case li + li { margin-top: 8px; }
+.nt-case-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  margin-top: 28px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: #171512;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.nt-case-cta:hover { background: #111; }
+.nt-case-back {
+  display: inline-block;
+  margin-top: 28px;
+  margin-left: 16px;
+  color: #171512;
+  font-size: 14px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+.nt-case a:focus-visible {
+  outline: 2px solid #171512;
+  outline-offset: 3px;
+}

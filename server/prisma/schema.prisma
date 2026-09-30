@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  FAILED
+}
+
+enum EmailStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED
+}
+
+enum ContactStatus {
+  RECEIVED
+  PROCESSED
+  FAILED
+  SPAM
+}
+
+// Migration 20260929120000_booking_no_overlap adds two SQL-only constraints Prisma cannot model:
+// Booking_no_overlap (active PENDING/CONFIRMED rows never overlap in time) and Booking_time_order.
+model Booking {
+  id                      String        @id @default(cuid())
+  name                    String
+  email                   String
+  company                 String
+  phone                   String        @default("")
+  message                 String        @default("")
+  services                String        @default("")
+  projectStage            String        @default("")
+  budget                  String        @default("")
+  timezone                String
+  startTime               DateTime      @db.Timestamptz(3)
+  endTime                 DateTime      @db.Timestamptz(3)
+  slotKey                 String?       @unique
+  calendarEventId         String?
+  calendarEventUrl        String?
+  status                  BookingStatus
+  confirmationEmailStatus EmailStatus   @default(PENDING)
+  internalEmailStatus     EmailStatus   @default(PENDING)
+  cancelToken             String        @unique
+  rescheduleToken         String        @unique
+  idempotencyKey          String?       @unique
+  createdAt               DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt               DateTime      @updatedAt @db.Timestamptz(3)
+
+  @@index([email])
+  @@index([startTime])
+  @@index([status])
+  @@index([calendarEventId])
+  @@index([createdAt])
+}
+
+model ContactSubmission {
+  id                         String        @id @default(cuid())
+  firstName                  String
+  lastName                   String
+  email                      String
+  company                    String        @default("")
+  phone                      String
+  city                       String
+  state                      String
+  message                    String
+  status                     ContactStatus
+  internalEmailStatus        EmailStatus   @default(PENDING)
+  acknowledgementEmailStatus EmailStatus   @default(PENDING)
+  idempotencyKey             String?       @unique
+  createdAt                  DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt                  DateTime      @updatedAt @db.Timestamptz(3)
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model RateHit {
+  id        String   @id @default(cuid())
+  key       String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([key, createdAt])
+}

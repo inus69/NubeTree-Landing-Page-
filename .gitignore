@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.next/
+dist/
+build/
+.vercel/
+.sf/
+server/.env
+server/node_modules

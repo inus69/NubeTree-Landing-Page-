@@ -1,0 +1,61 @@
+NubeTree services carousel — video prompts
+
+This page cannot generate MP4 files in the current environment.
+Each service already plays a silent motion scene in the carousel.
+
+To replace a scene with a real video, place the MP4 in this folder and add its
+filename to the "available" array in manifest.json. No other code changes.
+
+Files:
+  custom-software-development.mp4
+  saas-product-development.mp4
+  salesforce-development-integration.mp4
+  mobile-application-development.mp4
+  api-backend-development.mp4
+  crm-implementation.mp4
+  maintenance-modernization.mp4
+  dedicated-engineering-support.mp4
+
+Shared direction:
+Premium website motion design for an enterprise software studio.
+Abstract product UI, architecture, and data motion only.
+Muted stone, ink, and warm paper palette. Slow, precise, editorial.
+No stock footage, offices, typing, handshakes, meetings, watermarks,
+on-screen words, or logos (including Salesforce).
+16:9 or 4:5, silent, seamless loop, 8–12 seconds.
+
+01 custom-software-development.mp4
+A web application assembled from separate business-workflow modules.
+Nodes connect into an architecture, then a database, then a finished dashboard.
+Smooth modular components locking together. Scalable and custom-built.
+
+02 saas-product-development.mp4
+One product interface grows into a multi-tenant platform.
+Dashboard, users, organizations, cloud, and analytics connect to one core.
+Tenants join dynamically. The platform expands without clutter.
+
+03 salesforce-development-integration.mp4
+Enterprise CRM architecture. A CRM panel connects through APIs to ERP,
+payments, and a backend. Glowing data pipelines. Synchronized records.
+No Salesforce logo or wordmark.
+
+04 mobile-application-development.mp4
+A phone UI moves from wireframe to polished screens: components,
+authentication, dashboard, finished app. Smooth transitions and gestures.
+
+05 api-backend-development.mp4
+Disconnected systems join through a secure API gateway.
+Frontend, gateway, backend services, database, and external systems.
+Packets travel the pathways. No readable labels.
+
+06 crm-implementation.mp4
+Scattered spreadsheet-like blocks migrate into one structured CRM:
+workflows, then a calm dashboard. Data consolidates into a single system.
+
+07 maintenance-modernization.mp4
+A tangled legacy interface straightens into a clean modern architecture,
+then a quiet cloud application. Refactoring, not destruction.
+
+08 dedicated-engineering-support.mp4
+An existing backlog moves through engineering into releases.
+Tasks travel from queue to done. The product grows. No people footage.

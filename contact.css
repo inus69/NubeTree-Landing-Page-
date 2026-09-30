@@ -1,0 +1,268 @@
+body.nt-touch-page {
+  margin: 0;
+  background: #f4f4f6;
+  color: #1a1a1a;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+}
+
+.nt-touch-bar {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding: 16px 40px;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e6ea;
+}
+
+.nt-touch-brand {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 22px;
+  background: #f4f4f6;
+  color: #111827;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.nt-touch {
+  box-sizing: border-box;
+  width: min(880px, calc(100% - 80px));
+  margin: 36px auto 72px;
+  padding: 40px 40px 36px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.05);
+}
+
+.nt-touch h1 {
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(36px, 4vw, 44px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #1e293b;
+}
+
+.nt-touch-direct {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nt-touch-direct a {
+  color: #1e293b;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(30, 41, 59, 0.25);
+}
+
+.nt-touch-direct a:hover {
+  border-bottom-color: #1e293b;
+}
+
+.nt-touch-form {
+  margin-top: 32px;
+}
+
+.nt-form-errors {
+  margin: 0 0 22px;
+  padding: 14px 16px;
+  border: 1px solid #f3c3cf;
+  border-radius: 10px;
+  background: #fff7f8;
+}
+
+.nt-form-errors h2 {
+  margin: 0 0 8px;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #9f1239;
+}
+
+.nt-form-errors ul {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.nt-form-errors a {
+  color: #9f1239;
+  font-size: 14px;
+}
+
+.nt-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+}
+
+.nt-field-wide {
+  grid-column: 1 / -1;
+}
+
+.nt-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.nt-req {
+  color: #9f1239;
+}
+
+.nt-field input,
+.nt-field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #1a1a1a;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.nt-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.nt-field input:focus,
+.nt-field textarea:focus {
+  border-color: #1e293b;
+  box-shadow: 0 0 0 3px rgba(30, 41, 59, 0.14);
+}
+
+.nt-field.is-invalid input,
+.nt-field.is-invalid textarea {
+  border-color: #9f1239;
+}
+
+.nt-field.is-invalid input:focus,
+.nt-field.is-invalid textarea:focus {
+  box-shadow: 0 0 0 3px rgba(159, 18, 57, 0.14);
+}
+
+.nt-field-error {
+  margin: 6px 0 0;
+  color: #9f1239;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.nt-touch-submit {
+  margin-top: 26px;
+  padding: 10px 22px;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  background: transparent;
+  color: #1e293b;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.nt-touch-submit:hover,
+.nt-touch-submit:focus-visible {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+.nt-touch-submit:focus-visible {
+  outline: 2px solid #1e293b;
+  outline-offset: 3px;
+}
+
+.nt-touch-status,
+.nt-touch-note {
+  margin: 16px 0 0;
+  color: #1e293b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.nt-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.nt-touch-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.nt-form-alert p {
+  margin: 0;
+  color: #9f1239;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.nt-touch-success {
+  margin-top: 32px;
+  padding: 22px 24px;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  background: #f0fdf4;
+}
+
+.nt-touch-success:focus {
+  outline: 2px solid #1e293b;
+  outline-offset: 3px;
+}
+
+.nt-touch-success h2 {
+  margin: 0 0 8px;
+  font-family: Inter, "Inter Display", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: #166534;
+}
+
+.nt-touch-success p {
+  margin: 0;
+  color: #1e293b;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.nt-touch-success .nt-touch-submit {
+  margin-top: 18px;
+}
+
+@media (max-width: 720px) {
+  .nt-touch-bar {
+    padding: 14px 20px;
+  }
+
+  .nt-touch {
+    width: min(880px, calc(100% - 32px));
+    margin-top: 20px;
+    padding: 28px 18px 24px;
+  }
+
+  .nt-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.nt-turnstile { margin: 18px 0 4px; }
+.nt-turnstile[hidden] { display: none; }

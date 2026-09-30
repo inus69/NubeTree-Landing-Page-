@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>NeighborWorks America Case Study — NubeTree</title>
+  <meta name="description" content="How NubeTree standardized NeighborWorks America’s multi-tenant Salesforce architecture across regional community development centers.">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="case.css">
+</head>
+<body class="nt-case-page">
+  <main class="nt-case">
+    <a class="nt-case-brand" href="index.html">NubeTree</a>
+    <p class="nt-case-kicker">Case study · USA</p>
+    <h1>Scalable Multi-Tenant Enterprise Architecture</h1>
+    <dl class="nt-case-meta">
+      <div><dt>Client</dt><dd>NeighborWorks America</dd></div>
+      <div><dt>Region</dt><dd>USA</dd></div>
+      <div><dt>Domain</dt><dd>Multi-tenant enterprise architecture</dd></div>
+    </dl>
+    <h2>The problem</h2>
+    <p>Managing hundreds of independent regional community development centers created intense data fragmentation. Each hub used customized, non-standard fields. That produced large duplicate record trees, corrupted metrics, and deployment failures whenever a global update was pushed across the ecosystem.</p>
+    <h2>The work</h2>
+    <ul>
+      <li>Engineered a standardized metadata layer with Custom Metadata Types and Custom Settings so regional offices could turn local features on without changing the global codebase.</li>
+      <li>Deployed a single-trigger-per-object handler pattern so mass data updates did not recurse through automation.</li>
+      <li>Built an enterprise master data index with external lookups and indexed custom fields to merge duplicate regional accounts into one record view.</li>
+    </ul>
+    <h2>The outcome</h2>
+    <p>Data governance was unified across national nodes. Systemic software deployment bugs fell by 68%, and global feature rollouts could proceed without the earlier breakage.</p>
+    <a class="nt-case-cta" href="discovery-call.html">Book a Free Discovery Call</a>
+    <a class="nt-case-back" href="index.html#case-studies">Back to case studies</a>
+  </main>
+</body>
+</html>

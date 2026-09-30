@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>HSC Case Study — NubeTree</title>
+  <meta name="description" content="How NubeTree rebuilt HSC quote-to-cash with Salesforce CPQ calculator plugins and Amazon S3 hybrid document storage.">
+  <link rel="stylesheet" href="assets/fonts/fonts.css">
+  <link rel="stylesheet" href="case.css">
+</head>
+<body class="nt-case-page">
+  <main class="nt-case">
+    <a class="nt-case-brand" href="index.html">NubeTree</a>
+    <p class="nt-case-kicker">Case study · Canada</p>
+    <h1>Enterprise Salesforce CPQ and Hybrid Cloud Storage</h1>
+    <dl class="nt-case-meta">
+      <div><dt>Client</dt><dd>HSC</dd></div>
+      <div><dt>Region</dt><dd>Canada</dd></div>
+      <div><dt>Domain</dt><dd>Salesforce CPQ / Hybrid cloud storage</dd></div>
+    </dl>
+    <h2>The problem</h2>
+    <p>HSC’s quote-to-cash workflow was bottlenecked by a large pricing matrix with thousands of SKU permutations, multi-currency variations, and tier-based discounts. Processing these in standard Salesforce regularly breached governance limits. Generating large volumes of commercial contract PDFs also exhausted Salesforce file storage and threatened platform overage costs.</p>
+    <h2>The work</h2>
+    <ul>
+      <li>Tailored Salesforce CPQ with custom Product Rules, Price Rules, and JavaScript Quote Calculator Plugins so heavy calculations did not stay inside standard quote processing.</li>
+      <li>Designed a hybrid architecture that links Salesforce to Amazon S3. Apex triggers intercept document generation, push payloads through multipart REST streams, and store the S3 object URI back on the record.</li>
+      <li>Secured the AWS endpoints with Salesforce Named Credentials and expiring IAM pre-signed URLs so public asset exposure stays closed.</li>
+    </ul>
+    <h2>The outcome</h2>
+    <p>Quotation delays were removed. Complex contract compilation fell from 25 minutes to under 15 seconds. Salesforce file storage consumption dropped by 92%, which avoided thousands in licensing overhead.</p>
+    <a class="nt-case-cta" href="discovery-call.html">Book a Free Discovery Call</a>
+    <a class="nt-case-back" href="index.html#case-studies">Back to case studies</a>
+  </main>
+</body>
+</html>
