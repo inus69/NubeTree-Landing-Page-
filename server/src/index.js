@@ -1,21 +1,17 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadConfig } from "./config.js";
-import { createGoogleCalendar } from "./calendar.js";
-import { createResendEmail } from "./email.js";
-import { createPrismaStore } from "./store.js";
-import { createServer } from "./server.js";
-import { log, setLogListener } from "./log.js";
-import { createAlerter } from "./alert.js";
-import { createSalesforce } from "./salesforce.js";
+import { createApplication } from "./application.js";
+import { log } from "./log.js";
 
 var here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(resolve(here, "../../.env"));
-var config = loadConfig(process.env);
-var alerter = createAlerter({ url: config.alertWebhookUrl, site: config.siteUrl, onFailure: log });
-setLogListener(alerter.notify);
-var salesforce = createSalesforce(config.salesforce);
+var app = createApplication(process.env);
+var config = app.config;
+var server = app.server;
+var store = app.store;
+var alerter = app.alerter;
+var salesforce = app.salesforce;
 
 /** @param {string} path */
 function loadEnvFile(path) {
@@ -34,17 +30,6 @@ function loadEnvFile(path) {
     process.env[key] = value;
   });
 }
-var store = createPrismaStore();
-var server = createServer({
-  config: config,
-  store: store,
-  calendar: createGoogleCalendar(config),
-  email: createResendEmail(config),
-  salesforce: salesforce,
-  root: resolve(here, "../.."),
-  serveStatic: true
-});
-
 server.requestTimeout = 30000;
 server.headersTimeout = 15000;
 

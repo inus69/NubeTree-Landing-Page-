@@ -201,6 +201,25 @@ Types live in `server/src/types.js` as JSDoc typedefs, so the server stays plain
 
 ## Production
 
+### Vercel
+
+The repository includes a Vercel static build and a Node function for the existing `/api/*` routes. In Vercel, import the GitHub repository with the project root as the Root Directory; keep the configured install, build, and output settings from `vercel.json`.
+
+Add these private environment variables in Vercel Project Settings before the first build:
+
+- `DATABASE_URL`
+- `CALENDAR_CLIENT_ID`, `CALENDAR_CLIENT_SECRET`, `CALENDAR_REFRESH_TOKEN`, `CALENDAR_ID`
+- `EMAIL_API_KEY`, `EMAIL_FROM`
+- `SALESFORCE_CLIENT_ID`, `SALESFORCE_CLIENT_SECRET`
+- `SALESFORCE_EXTERNAL_ID_FIELD` if the Lead external ID field is not `Website_External_Id__c`
+- `NEXT_PUBLIC_SITE_URL` set to the public HTTPS domain. This is used at build time for canonical links and the sitemap.
+
+Set `INTERNAL_NOTIFICATION_EMAIL` and any other booking settings as needed. Set both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET` to enable Turnstile. Vercel automatically supplies `VERCEL_URL` for preview builds; the app trusts Vercel's forwarded client IP for rate limiting.
+
+Before deploying to a new database, run `npx prisma migrate deploy` once from `server/` with that database's `DATABASE_URL`. The build generates Prisma Client but does not run migrations. The database migrated earlier in this project already has the checked-in migrations applied; run migrations again only after adding a new migration or changing databases.
+
+Keep all credentials in Vercel's Environment Variables settings, not in GitHub or `vercel.json`. Deploy a preview first, verify `/api/health` and booking/contact flows with the configured services, then promote or deploy to production. Email and Salesforce must be configured for those flows to succeed.
+
 1. Provision PostgreSQL and set `DATABASE_URL`.
 2. Run `npx prisma migrate deploy` from `server/`.
 3. Set the calendar and email variables for the production accounts.

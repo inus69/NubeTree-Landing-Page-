@@ -21,8 +21,8 @@ export function loadConfig(env) {
   return {
     port: numberFrom(source, "PORT", 5500),
     host: source.HOST || "127.0.0.1",
-    trustProxy: source.TRUST_PROXY === "true",
-    siteUrl: source.NEXT_PUBLIC_SITE_URL || "http://127.0.0.1:5500",
+    trustProxy: source.VERCEL === "1" || source.TRUST_PROXY === "true",
+    siteUrl: source.NEXT_PUBLIC_SITE_URL || (source.VERCEL_URL ? "https://" + source.VERCEL_URL : "http://127.0.0.1:5500"),
     bookingTimezone: source.BOOKING_TIMEZONE || "America/New_York",
     durationMinutes: numberFrom(source, "BOOKING_DURATION_MINUTES", 30),
     bufferMinutes: numberFrom(source, "BOOKING_BUFFER_MINUTES", 0),

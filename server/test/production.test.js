@@ -184,6 +184,12 @@ test("Salesforce sync is mandatory in production and opt-in during local develop
   assert.equal(loadConfig({ SALESFORCE_REQUIRED: "true" }).salesforce.required, true);
 });
 
+test("Vercel trusts its forwarded client IP for rate limiting", function () {
+  assert.equal(loadConfig({}).trustProxy, false);
+  assert.equal(loadConfig({ VERCEL: "1" }).trustProxy, true);
+  assert.equal(loadConfig({ TRUST_PROXY: "true" }).trustProxy, true);
+});
+
 test("Turnstile is rendered and enforced when configured", async function () {
   var running = await listen(null, { TURNSTILE_SECRET: "secret", TURNSTILE_SITE_KEY: "site-key-123" });
   var page = await fetch(running.origin + "/contact.html");
