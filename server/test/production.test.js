@@ -115,6 +115,8 @@ test("server secrets never reach the browser", async function () {
     CALENDAR_REFRESH_TOKEN: "leak-calendar-refresh-token",
     CALENDAR_WEBHOOK_SECRET: "leak-calendar-webhook-secret",
     EMAIL_API_KEY: "leak-email-api-key",
+    SALESFORCE_CLIENT_ID: "leak-salesforce-client-id",
+    SALESFORCE_CLIENT_SECRET: "leak-salesforce-client-secret",
     TURNSTILE_SECRET: "leak-turnstile-secret",
     TURNSTILE_SITE_KEY: "public-turnstile-site-key"
   };
@@ -174,6 +176,12 @@ test("Turnstile stays off unless both keys are set", function () {
   var both = loadConfig({ TURNSTILE_SECRET: "secret", TURNSTILE_SITE_KEY: "site" });
   assert.equal(both.turnstileSecret, "secret");
   assert.equal(both.turnstileSiteKey, "site");
+});
+
+test("Salesforce sync is mandatory in production and opt-in during local development", function () {
+  assert.equal(loadConfig({ NODE_ENV: "production" }).salesforce.required, true);
+  assert.equal(loadConfig({}).salesforce.required, false);
+  assert.equal(loadConfig({ SALESFORCE_REQUIRED: "true" }).salesforce.required, true);
 });
 
 test("Turnstile is rendered and enforced when configured", async function () {

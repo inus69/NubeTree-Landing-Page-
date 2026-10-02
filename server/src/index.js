@@ -8,12 +8,14 @@ import { createPrismaStore } from "./store.js";
 import { createServer } from "./server.js";
 import { log, setLogListener } from "./log.js";
 import { createAlerter } from "./alert.js";
+import { createSalesforce } from "./salesforce.js";
 
 var here = dirname(fileURLToPath(import.meta.url));
 loadEnvFile(resolve(here, "../../.env"));
 var config = loadConfig(process.env);
 var alerter = createAlerter({ url: config.alertWebhookUrl, site: config.siteUrl, onFailure: log });
 setLogListener(alerter.notify);
+var salesforce = createSalesforce(config.salesforce);
 
 /** @param {string} path */
 function loadEnvFile(path) {
@@ -38,6 +40,7 @@ var server = createServer({
   store: store,
   calendar: createGoogleCalendar(config),
   email: createResendEmail(config),
+  salesforce: salesforce,
   root: resolve(here, "../.."),
   serveStatic: true
 });
@@ -51,6 +54,7 @@ server.listen(config.port, config.host, function () {
   if (!process.env.DATABASE_URL) missing.push("database");
   if (!(config.calendar.clientId && config.calendar.clientSecret && config.calendar.refreshToken && config.calendar.calendarId)) missing.push("calendar");
   if (!(config.email.apiKey && config.email.from)) missing.push("email");
+  if (!salesforce.configured()) missing.push("salesforce");
   if (missing.length) log("integrations_missing", { missing: missing.join(",") });
 });
 

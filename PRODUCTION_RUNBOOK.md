@@ -16,6 +16,10 @@ Before deployment, collect these values:
   - `EMAIL_API_KEY`
   - `EMAIL_FROM`
   - optional `EMAIL_REPLY_TO`
+- Salesforce Connected App client-credentials values:
+  - `SALESFORCE_CLIENT_ID`
+  - `SALESFORCE_CLIENT_SECRET`
+  - `SALESFORCE_EXTERNAL_ID_FIELD` (defaults to `Website_External_Id__c`)
 - public HTTPS origin:
   - `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
 - host/runtime values:
@@ -54,6 +58,12 @@ EMAIL_FROM=hello@yourdomain.com
 EMAIL_REPLY_TO=hr@nubetree.com
 INTERNAL_NOTIFICATION_EMAIL=hr@nubetree.com
 EMAIL_ACKNOWLEDGE=true
+
+SALESFORCE_LOGIN_URL=https://login.salesforce.com
+SALESFORCE_CLIENT_ID=...
+SALESFORCE_CLIENT_SECRET=...
+SALESFORCE_EXTERNAL_ID_FIELD=Website_External_Id__c
+SALESFORCE_API_VERSION=61.0
 
 TURNSTILE_SECRET=your_turnstile_secret
 
@@ -102,7 +112,11 @@ Confirm that these values are non-empty in the runtime environment:
 - `CALENDAR_ID`
 - `EMAIL_API_KEY`
 - `EMAIL_FROM`
+- `SALESFORCE_CLIENT_ID`
+- `SALESFORCE_CLIENT_SECRET`
 - `NEXT_PUBLIC_SITE_URL`
+
+Before launch, configure Salesforce client-credentials OAuth with a dedicated API user. Create a unique 64-character Text field on Lead, mark it External ID, and grant the integration user read/create/edit access to Leads plus read/write access to the description and external-ID fields. Contact inquiries and bookings are upserted to the same Lead by a SHA-256 hash of normalized email; each submission is appended to the Lead description without discarding earlier details. Production requires Salesforce; submissions are not reported as successful if CRM synchronization fails.
 
 ### Step 3: deploy the app
 

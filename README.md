@@ -46,6 +46,11 @@ The site has no frontend build, so no variable reaches the browser by its name a
 | `EMAIL_REPLY_TO` | Optional | Default is `INTERNAL_NOTIFICATION_EMAIL` |
 | `INTERNAL_NOTIFICATION_EMAIL` | Optional | Inbox for new bookings and contact messages. Default `hr@nubetree.com` |
 | `EMAIL_ACKNOWLEDGE` | Optional | `false` stops the acknowledgement email to people who use the contact form. Default `true` |
+| `SALESFORCE_CLIENT_ID`, `SALESFORCE_CLIENT_SECRET` | Required | Salesforce Connected App client-credentials OAuth. Used only by the server |
+| `SALESFORCE_LOGIN_URL` | Optional | Default `https://login.salesforce.com`; use `https://test.salesforce.com` for a sandbox |
+| `SALESFORCE_EXTERNAL_ID_FIELD` | Required in Salesforce | Default `Website_External_Id__c`, a unique Text field marked External ID on Lead |
+| `SALESFORCE_API_VERSION` | Optional | Default `61.0` |
+| `SALESFORCE_REQUIRED` | Local development | Set `true` to require Salesforce locally. Production always requires it |
 | `TURNSTILE_SECRET` | Optional | Turnstile secret. Turnstile turns on only when this and `TURNSTILE_SITE_KEY` are both set |
 | `PORT` | Optional | Default `5500` |
 | `HOST` | Required | Use `0.0.0.0` in a container. Default `127.0.0.1` |
@@ -62,6 +67,12 @@ The site has no frontend build, so no variable reaches the browser by its name a
 | `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` | Local only | Credentials for the local Docker database in `docker-compose.yml` |
 
 Use a separate Google calendar, Resend audience, and database for development. Do not point a local `.env` at the production calendar.
+
+### Salesforce Lead sync
+
+Valid contact submissions and discovery-call bookings upsert the standard Salesforce `Lead` object. Both forms use a SHA-256 key derived from the normalized email address, so a booking enriches the same Lead as an earlier contact inquiry. Each distinct submission is appended to the Lead description without replacing earlier form messages or appointment details. Honeypot and too-fast submissions are not sent. OAuth credentials stay on the server; production form submissions return a retryable error instead of claiming success when Salesforce is unavailable.
+
+In Salesforce, enable the Connected App client-credentials flow and assign a dedicated integration user with API access and read/create/edit access to Leads. Grant read/write access to the Lead description and external-ID field. Add a `Website_External_Id__c` Lead field of type Text (64 characters), mark it **External ID** and **Unique**. Use the field's API name in `SALESFORCE_EXTERNAL_ID_FIELD` if it differs. Set the Connected App client ID and secret in the production host's secret settings.
 
 ## Database
 

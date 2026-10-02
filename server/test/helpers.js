@@ -10,6 +10,7 @@ import { loadConfig } from "../src/config.js";
  * @typedef {import("../src/types.js").ContactSubmission} ContactSubmission
  * @typedef {import("../src/types.js").CalendarProvider} CalendarProvider
  * @typedef {import("../src/types.js").EmailService} EmailService
+ * @typedef {import("../src/types.js").SalesforceService} SalesforceService
  * @typedef {import("../src/types.js").Interval} Interval
  * @typedef {import("../src/types.js").NewCalendarEvent} NewCalendarEvent
  * @typedef {Store & { bookings: Booking[], contacts: ContactSubmission[] }} MemoryStore
@@ -228,7 +229,7 @@ export function recordingServices(options) {
 
 /**
  * @param {Record<string, string>} env
- * @param {{ store?: MemoryStore, serveStatic?: boolean, services?: ServiceOptions }} [options]
+ * @param {{ store?: MemoryStore, serveStatic?: boolean, services?: ServiceOptions, salesforce?: SalesforceService }} [options]
  */
 export function listen(env, options) {
   var settings = options || {};
@@ -239,6 +240,7 @@ export function listen(env, options) {
     store: store,
     calendar: services.calendar,
     email: services.email,
+    salesforce: settings.salesforce,
     root: resolve(import.meta.dirname, "../.."),
     serveStatic: settings.serveStatic !== false
   });

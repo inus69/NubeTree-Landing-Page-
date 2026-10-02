@@ -47,6 +47,14 @@ export function loadConfig(env) {
       internal: source.INTERNAL_NOTIFICATION_EMAIL || "hr@nubetree.com",
       acknowledge: source.EMAIL_ACKNOWLEDGE !== "false"
     },
+    salesforce: {
+      loginUrl: source.SALESFORCE_LOGIN_URL || "https://login.salesforce.com",
+      clientId: source.SALESFORCE_CLIENT_ID || "",
+      clientSecret: source.SALESFORCE_CLIENT_SECRET || "",
+      externalIdField: source.SALESFORCE_EXTERNAL_ID_FIELD || "Website_External_Id__c",
+      apiVersion: source.SALESFORCE_API_VERSION || "61.0",
+      required: source.NODE_ENV === "production" || source.SALESFORCE_REQUIRED === "true"
+    },
     rateLimit: {
       max: numberFrom(source, "RATE_LIMIT_MAX_REQUESTS", 8),
       availabilityMax: numberFrom(source, "RATE_LIMIT_AVAILABILITY_MAX", 60),

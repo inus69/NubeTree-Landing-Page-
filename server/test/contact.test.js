@@ -17,12 +17,15 @@ var visitor = {
   elapsedMs: 15000
 };
 
+/** @typedef {import("../src/types.js").SalesforceService} SalesforceService */
+
 /**
  * @param {import("node:test").TestContext} t
  * @param {Record<string, string>} [env]
+ * @param {SalesforceService} [salesforce]
  */
-async function open(t, env) {
-  var running = await listen(Object.assign({}, ENV, env || {}), { serveStatic: false });
+async function open(t, env, salesforce) {
+  var running = await listen(Object.assign({}, ENV, env || {}), { serveStatic: false, salesforce: salesforce });
   t.after(function () {
     running.server.closeAllConnections();
     running.server.close();
@@ -45,6 +48,39 @@ test("a valid message is stored, emailed to the team, acknowledged, and returns 
   assert.equal(running.store.contacts[0].status, "PROCESSED");
   assert.equal(running.store.contacts[0].internalEmailStatus, "SENT");
   assert.deepEqual(running.emails, ["contact", "ack"]);
+});
+
+test("a valid contact submission is synchronized to Salesforce before success", async function (t) {
+  /** @type {Array<{ contact: import("@prisma/client").ContactSubmission }>} */
+  var synced = [];
+  /** @type {SalesforceService} */
+  var salesforce = {
+    configured: function () { return true; },
+    required: function () { return false; },
+    async upsertContact(contact) { synced.push({ contact: contact }); },
+    async upsertBooking() {}
+  };
+  var running = await open(t, undefined, salesforce);
+  var res = await call(running.port, "POST", "/api/contact", visitor, { "Idempotency-Key": "crm-contact" });
+  assert.equal(res.status, 201);
+  assert.equal(synced.length, 1);
+  assert.equal(synced[0].contact.email, visitor.email);
+  assert.equal(synced[0].contact.id, running.store.contacts[0].id);
+});
+
+test("a contact is not acknowledged when Salesforce cannot save it", async function (t) {
+  /** @type {SalesforceService} */
+  var salesforce = {
+    configured: function () { return true; },
+    required: function () { return false; },
+    async upsertContact() { throw new Error("Salesforce unavailable"); },
+    async upsertBooking() {}
+  };
+  var running = await open(t, undefined, salesforce);
+  var res = await call(running.port, "POST", "/api/contact", visitor, { "Idempotency-Key": "crm-retry" });
+  assert.equal(res.status, 503);
+  assert.equal(running.store.contacts[0].status, "FAILED");
+  assert.deepEqual(running.emails, []);
 });
 
 test("the same idempotency key is stored and emailed once", async function (t) {

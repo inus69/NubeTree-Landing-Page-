@@ -2,8 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { DateTime } from "luxon";
 import { call, listen } from "./helpers.js";
+/** @typedef {import("../src/types.js").SalesforceService} SalesforceService */
 
-/** @param {{ max?: number }} [extras] */
+/** @param {{ max?: number, salesforce?: SalesforceService }} [extras] */
 function bookingServer(extras) {
   return listen({
     BOOKING_TIMEZONE: "America/New_York",
@@ -13,7 +14,7 @@ function bookingServer(extras) {
     RATE_LIMIT_MAX_REQUESTS: extras && extras.max ? String(extras.max) : "20",
     RATE_LIMIT_AVAILABILITY_MAX: extras && extras.max ? String(extras.max) : "60",
     RATE_LIMIT_WINDOW_SECONDS: "600"
-  }, { serveStatic: false });
+  }, { serveStatic: false, salesforce: extras && extras.salesforce });
 }
 
 var person = {
@@ -86,6 +87,34 @@ test("email failure does not fail a created booking or create a second calendar 
   assert.equal(replay.status, 200);
   assert.equal(running.events.length, 1);
   assert.equal(running.store.bookings.length, 1);
+  running.server.close();
+});
+
+test("a confirmed booking retries its Salesforce sync without creating another calendar event", async function () {
+  var attempts = 0;
+  /** @type {SalesforceService} */
+  var salesforce = {
+    configured: function () { return true; },
+    required: function () { return false; },
+    async upsertContact() {},
+    async upsertBooking(booking) {
+      attempts += 1;
+      assert.equal(booking.email, person.email);
+      if (attempts === 1) throw new Error("Salesforce unavailable");
+    }
+  };
+  var running = await bookingServer({ salesforce: salesforce });
+  var month = DateTime.now().setZone("America/New_York").plus({ days: 2 });
+  var listed = await call(running.port, "GET", "/api/discovery-call/availability?timezone=America/New_York&year=" + month.year + "&month=" + month.month);
+  var slot = ((listed.json.data && listed.json.data.days) || []).flatMap(function (day) { return day.slots; })[0];
+  var payload = Object.assign({}, person, { selected_time: slot.startUtc });
+  var first = await call(running.port, "POST", "/api/discovery-call/book", payload, { "Idempotency-Key": "crm-booking" });
+  assert.equal(first.status, 503);
+  assert.equal(running.store.bookings[0].status, "CONFIRMED");
+  var retry = await call(running.port, "POST", "/api/discovery-call/book", payload, { "Idempotency-Key": "crm-booking" });
+  assert.equal(retry.status, 200);
+  assert.equal(attempts, 2);
+  assert.equal(running.events.length, 1);
   running.server.close();
 });
 

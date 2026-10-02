@@ -138,11 +138,20 @@
  */
 
 /**
+ * @typedef {object} SalesforceService
+ * @property {() => boolean} configured
+ * @property {() => boolean} required
+ * @property {(contact: ContactSubmission) => Promise<void>} upsertContact
+ * @property {(booking: Booking) => Promise<void>} upsertBooking
+ */
+
+/**
  * @typedef {object} Deps
  * @property {Config} config
  * @property {Store} store
  * @property {CalendarProvider} calendar
  * @property {EmailService} email
+ * @property {SalesforceService} [salesforce]
  * @property {string} [requestId]
  * @property {string} [root]
  * @property {boolean} [serveStatic]

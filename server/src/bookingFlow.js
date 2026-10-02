@@ -29,21 +29,37 @@ function token() {
 
 /**
  * Decides what a repeated request with the same Idempotency-Key gets back.
+ * @param {Deps} deps
  * @param {Booking} prior
  * @param {BookingInput} input
  */
-function replay(prior, input) {
+async function replay(deps, prior, input) {
   if (prior.startTime.getTime() !== input.start.toMillis() || prior.name !== input.name || prior.email !== input.email ||
       prior.company !== input.company || prior.phone !== input.phone || prior.message !== input.message ||
       prior.services !== input.services || prior.projectStage !== input.projectStage || prior.budget !== input.budget ||
       prior.timezone !== input.timezone) {
     throw new AppError("IDEMPOTENCY_MISMATCH", 422, "This idempotency key was already used for a different booking request. Please start a new booking.");
   }
-  if (prior.status === "CONFIRMED") return { data: present(prior), created: false };
+  if (prior.status === "CONFIRMED") {
+    await syncSalesforceBooking(deps, prior);
+    return { data: present(prior), created: false };
+  }
   if (prior.status === "PENDING") {
     throw new AppError("BOOKING_IN_PROGRESS", 409, "Your booking is still being confirmed. Please wait a moment.");
   }
   throw new AppError("IDEMPOTENCY_MISMATCH", 422, "This booking request has already been closed. Please start a new booking.");
+}
+
+/** @param {Deps} deps @param {Booking} booking */
+async function syncSalesforceBooking(deps, booking) {
+  if (!deps.salesforce || (!deps.salesforce.configured() && !deps.salesforce.required())) return;
+  try {
+    await deps.salesforce.upsertBooking(booking);
+    log("salesforce_synced", { requestId: deps.requestId, kind: "booking", bookingId: booking.id });
+  } catch {
+    log("salesforce_failure", { requestId: deps.requestId, kind: "booking", bookingId: booking.id });
+    throw new AppError("SERVICE_UNAVAILABLE", 503, "We couldn't sync your booking yet. Please retry shortly; your time is reserved.");
+  }
 }
 
 /** @param {Date} value */
@@ -207,7 +223,7 @@ export async function book(deps, body, idempotencyKey) {
   }
   if (idempotencyKey) {
     var prior = await deps.store.findByIdempotency(idempotencyKey);
-    if (prior) return replay(prior, input);
+    if (prior) return replay(deps, prior, input);
   }
   var end = input.start.plus({ minutes: deps.config.durationMinutes });
   var slots = await openSlots(deps);
@@ -240,7 +256,7 @@ export async function book(deps, body, idempotencyKey) {
   };
   var claimed = await deps.store.claim(row);
   if (claimed.id !== row.id) {
-    if (idempotencyKey && claimed.idempotencyKey === idempotencyKey) return replay(claimed, input);
+    if (idempotencyKey && claimed.idempotencyKey === idempotencyKey) return replay(deps, claimed, input);
     throw slotTaken();
   }
   /** @type {Interval[]} */
@@ -298,6 +314,7 @@ export async function book(deps, body, idempotencyKey) {
     log("booking_record_failure", { requestId: deps.requestId, bookingId: claimed.id, step: "confirm" });
     saved = Object.assign({}, claimed, { status: /** @type {const} */ ("CONFIRMED"), confirmationEmailStatus: mailed.confirmation, internalEmailStatus: mailed.internal });
   }
+  await syncSalesforceBooking(deps, saved);
   return { data: present(Object.assign({}, saved, { meetingLink: event.meetingLink })), created: true };
 }
 
@@ -322,17 +339,21 @@ async function undoEvent(deps, eventId, bookingId) {
  */
 export async function cancel(deps, cancelToken) {
   var booking = await deps.store.findByCancelToken(cancelToken);
-  if (!booking || booking.status !== "CONFIRMED") {
-    throw notFound();
+  if (!booking) throw notFound();
+  if (booking.status === "CANCELLED") {
+    await syncSalesforceBooking(deps, booking);
+    return { ok: true };
   }
+  if (booking.status !== "CONFIRMED") throw notFound();
   if (booking.calendarEventId) await deps.calendar.cancelEvent(booking.calendarEventId);
-  await deps.store.cancel(booking.id);
+  booking = await deps.store.cancel(booking.id);
   try {
     await deps.email.sendCancellation(booking);
     log("email_sent", { requestId: deps.requestId, kind: "cancellation", bookingId: booking.id });
   } catch {
     log("email_failure", { requestId: deps.requestId, kind: "cancellation", bookingId: booking.id });
   }
+  await syncSalesforceBooking(deps, booking);
   return { ok: true };
 }
 
@@ -363,11 +384,13 @@ export async function reschedule(deps, body) {
     end: end,
     attendees: attendees
   });
+  var moved;
+  var view;
+  var mailed;
   try {
-    var moved = await deps.store.move(booking.id, input.start, end);
-    var view = Object.assign({}, moved, { calendarEventUrl: booking.calendarEventUrl });
-    var mailed = await mailBooking(deps, view, input.start);
-    return present(Object.assign(view, { confirmationEmailStatus: mailed.confirmation, internalEmailStatus: mailed.internal }));
+    moved = await deps.store.move(booking.id, input.start, end);
+    view = Object.assign({}, moved, { calendarEventUrl: booking.calendarEventUrl });
+    mailed = await mailBooking(deps, view, input.start);
   } catch (error) {
     await deps.calendar.updateEvent(eventId, {
       summary: eventSummary(booking.name),
@@ -378,6 +401,9 @@ export async function reschedule(deps, body) {
     });
     throw error;
   }
+  view = Object.assign(view, { confirmationEmailStatus: mailed.confirmation, internalEmailStatus: mailed.internal });
+  await syncSalesforceBooking(deps, view);
+  return present(view);
 }
 
 /** @param {unknown} value */
@@ -464,6 +490,21 @@ export async function submitContact(deps, body, idempotencyKey) {
     var raced = key ? await deps.store.findContactByKey(key) : null;
     if (raced) return contactReplay(deps, raced, "idempotency_key");
     throw unavailable();
+  }
+  if (deps.salesforce && (deps.salesforce.configured() || deps.salesforce.required())) {
+    try {
+      await deps.salesforce.upsertContact(saved);
+      log("salesforce_synced", { requestId: deps.requestId, kind: "contact", contactId: saved.id });
+    } catch {
+      await deps.store.markContact(saved.id, {
+        status: "FAILED",
+        internalEmailStatus: "FAILED",
+        acknowledgementEmailStatus: "SKIPPED",
+        idempotencyKey: null
+      });
+      log("salesforce_failure", { requestId: deps.requestId, kind: "contact", contactId: saved.id });
+      throw new AppError("SERVICE_UNAVAILABLE", 503, "We couldn't send your message just now. Please retry in a few minutes.");
+    }
   }
   /** @type {EmailStatus} */
   var internal = "FAILED";
