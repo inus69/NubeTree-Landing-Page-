@@ -1,4 +1,5 @@
 {
+  "framework": null,
   "installCommand": "cd server && npm ci",
   "buildCommand": "cd server && npx prisma generate && cd .. && node scripts/build-vercel-site.mjs",
   "outputDirectory": "public",

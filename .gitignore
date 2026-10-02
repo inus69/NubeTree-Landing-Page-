@@ -10,3 +10,4 @@ public/
 .sf/
 server/.env
 server/node_modules
+.vercel
